@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { getMileageFromVideo, getFuelCostsFromVideo } from "../wholeThing";
+import { getMileageFromVideo, getFuelCostsFromVideo } from "../interpretVideo";
 
 const router = express.Router();
 
