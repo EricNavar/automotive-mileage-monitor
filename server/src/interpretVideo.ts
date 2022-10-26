@@ -1,5 +1,7 @@
 import fetch from "node-fetch";
 import xml2js from "xml2js";
+import http from "https";
+import axios from "axios";
 
 interface CarSpeed {
     stanfordClassId: string;
@@ -14,6 +16,7 @@ interface MileageSpeed {
 interface Car {
     make: string;
     model: string;
+    type: string;
     year: number;
 }
 
@@ -52,7 +55,7 @@ export async function epaIdToMileage(epaId: string): Promise<number> {
 /**
  * Send video link to ML model and in return get the speed and the classId of each car in the video as an Array
  * 
- */ 
+ */
 async function queryMLModel(videoLink: string): Promise<Array<CarSpeed>> {
     throw new Error("Not implemented yet");
 }
@@ -67,7 +70,7 @@ async function carSpeedToMileageSpeedArray(carSpeedList: Array<CarSpeed>): Promi
     for (const carSpeed of carSpeedList) {
         const epaId = await stanfordClassToEpaId(carSpeed.stanfordClassId);
         const mileage = await epaIdToMileage(epaId);
-        toReturn.push({mileage: mileage, speed: carSpeed.speed});
+        toReturn.push({ mileage: mileage, speed: carSpeed.speed });
     }
 
     return toReturn;
@@ -84,7 +87,7 @@ async function carSpeedToMileageSpeedArray(carSpeedList: Array<CarSpeed>): Promi
  */
 
 async function transformMileageUsingSpeed(mileageSpeedList: Array<MileageSpeed>): Promise<Array<number>> {
-    const mileageTransform = (adMileage: number, speed: number) => adMileage * ((1/30)*(-1/120)*(speed - 55)^2+30);
+    const mileageTransform = (adMileage: number, speed: number) => adMileage * ((1 / 30) * (-1 / 120) * (speed - 55) ^ 2 + 30);
 
     return mileageSpeedList.map((mileageSpeed) => mileageTransform(mileageSpeed.mileage, mileageSpeed.speed));
 }
@@ -96,14 +99,19 @@ async function transformMileageUsingSpeed(mileageSpeedList: Array<MileageSpeed>)
  * 
  */
 async function transformMileageToFuelCost(mileageList: Array<number>, stateAcronym: string): Promise<Array<number>> {
+    const gasPrice = await fetch(`https://api.collectapi.com/gasPrice/stateUsaPrice?state=${stateAcronym}`, {
+        headers: {
+            "content-type": "application/json",
+            "authorization": "apikey your_token"
+        }
+    });
+
     throw new Error("Not implemented yet");
 }
 
 export async function getMileageFromVideo(videoLink: string): Promise<Array<number>> {
     const carsSpeedList: Array<CarSpeed> = await queryMLModel(videoLink);
-    
     const mileageSpeedList: Array<MileageSpeed> = await carSpeedToMileageSpeedArray(carsSpeedList);
-
     const mileageList: Array<number> = await transformMileageUsingSpeed(mileageSpeedList);
 
     return mileageList;

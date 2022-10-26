@@ -17,7 +17,7 @@ router.post("/fuelCosts", (req: Request, res: Response) => {
 });
 
 router.get("/test", async (req: Request, res: Response) => {
-  res.send(await carToEpaId({make: "Toyota", model: "Camry", year: 2019}));
+  res.send(await carToEpaId({make: "Toyota", model: "Camry", type: "whatever", year: 2019}));
 });
 
 router.get("/test2", async (req: Request, res: Response) => {
