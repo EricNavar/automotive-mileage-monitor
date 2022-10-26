@@ -13,7 +13,7 @@ interface MileageSpeed {
     speed: number;
 }
 
-interface Car {
+export interface Car {
     make: string;
     model: string;
     type: string;
