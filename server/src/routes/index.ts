@@ -13,7 +13,7 @@ router.post("/mileage", (req: Request, res: Response) => {
 });
 
 router.post("/fuelCosts", (req: Request, res: Response) => {
-  res.send(getFuelCostsFromVideo(req.body.videoLink));
+  res.send(getFuelCostsFromVideo(req.body.videoLink, req.body.stateAcronym));
 });
 
 export default router;
