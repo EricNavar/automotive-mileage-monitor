@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>HTML 5 Boilerplate</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Waffle House</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
   </head>
   <body>
     <h1>Welcome to Waffle House!</h1>
     <img src="./waffle-hos.jpg"/>
     <p>&#139;p&#155;Hello world!&#139;p&#155;</p>
 
-    <form style="border-style:dashed; border-width: 4px;">
+    <form class="form" onsubmit="ballCrusher()" id="form">
+        <label>Video file</label>
         <input type="file"
             accept="video/*"
         >
+        <label>Select a state</label>
         <select>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -69,10 +72,14 @@
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
         </select>
-        <span>
-            <button onclick="ballCrusher()">submit 🤪</button>
-        </span>
+        <button onclick="ballCrusher()" class="submit">submit 🤪</button>
     </form>
+
+    <div id="loading" class="loading">
+        We're loading and doing real computations haha
+    </div>
+
+    <p style="color: #595959; font-size: 10px;">©2022 WH Capital, L.L.C. ®™ All Waffle House trademarks are owned by WH Capital, L.L.C. and licensed to Waffle House, Inc.</p>
 	<script src="index.js"></script>
   </body>
 </html>
