@@ -1,3 +1,6 @@
+import fetch from "node-fetch";
+import xml2js from "xml2js";
+
 interface CarSpeed {
     stanfordClassId: string;
     speed: number;
@@ -18,11 +21,16 @@ async function stanfordClassToCar(stanfordClassId: string): Promise<Car> {
     throw new Error("Not implemented yet");
 }
 
-async function carToEpaId(car: Car): Promise<string> {
+export async function carToEpaId(car: Car): Promise<string> {
     return fetch(`https://www.fueleconomy.gov/ws/rest/vehicle/menu/options?year=${car.year}&make=${car.make}&model=${car.model}`).then((response) => {
-        return response.json();
-    }).then((json) => {
-        return json.menuItem[0].value;
+        return response.text();
+    }).then((xmlResponse: string) => {
+        return xml2js.parseStringPromise(xmlResponse);
+    }).then((jsonResponse: any) => {
+        console.log(jsonResponse);
+        let toReturn = jsonResponse.menuItems.menuItem[0].value[0];
+        console.log(toReturn);
+        return toReturn;
     });
 }
 
@@ -31,11 +39,13 @@ async function stanfordClassToEpaId(stanfordClassId: string): Promise<string> {
     return carToEpaId(car);
 }
 
-async function epaIdToMileage(epaId: string): Promise<number> {
+export async function epaIdToMileage(epaId: string): Promise<number> {
     return fetch(`https://www.fueleconomy.gov/ws/rest/vehicle/${epaId}`).then((response) => {
-        return response.json();
-    }).then((data) => {
-        return data.comb08;
+        return response.text();
+    }).then((xmlResponse: string) => {
+        return xml2js.parseStringPromise(xmlResponse);
+    }).then((data: any) => {
+        return data.vehicle.comb08[0];
     });
 }
 
