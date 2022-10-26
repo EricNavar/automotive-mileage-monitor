@@ -1,7 +1,6 @@
 import fetch from "node-fetch";
 import xml2js from "xml2js";
-import http from "https";
-import axios from "axios";
+import cars from "./cars";
 
 interface CarSpeed {
     stanfordClassId: string;
@@ -21,7 +20,7 @@ export interface Car {
 }
 
 async function stanfordClassToCar(stanfordClassId: string): Promise<Car> {
-    throw new Error("Not implemented yet");
+    return cars[parseInt(stanfordClassId) + 1];
 }
 
 export async function carToEpaId(car: Car): Promise<string> {
@@ -30,10 +29,17 @@ export async function carToEpaId(car: Car): Promise<string> {
     }).then((xmlResponse: string) => {
         return xml2js.parseStringPromise(xmlResponse);
     }).then((jsonResponse: any) => {
-        console.log(jsonResponse);
-        let toReturn = jsonResponse.menuItems.menuItem[0].value[0];
-        console.log(toReturn);
-        return toReturn;
+        try {
+
+            console.log(jsonResponse);
+            let toReturn = jsonResponse.menuItems.menuItem[0].value[0];
+            console.log(toReturn);
+            return toReturn;
+        }
+        catch (e) {
+            console.log("CAUGHT: " + e);
+            return "40606";
+        }
     });
 }
 
@@ -57,7 +63,7 @@ export async function epaIdToMileage(epaId: string): Promise<number> {
  * 
  */
 async function queryMLModel(videoLink: string): Promise<Array<CarSpeed>> {
-    throw new Error("Not implemented yet");
+    return mlModelDummyData();
 }
 
 /**
@@ -86,8 +92,8 @@ async function carSpeedToMileageSpeedArray(carSpeedList: Array<CarSpeed>): Promi
  * 
  */
 
-async function transformMileageUsingSpeed(mileageSpeedList: Array<MileageSpeed>): Promise<Array<number>> {
-    const mileageTransform = (adMileage: number, speed: number) => adMileage * ((1 / 30) * (-1 / 120) * (speed - 55) ^ 2 + 30);
+export async function transformMileageUsingSpeed(mileageSpeedList: Array<MileageSpeed>): Promise<Array<number>> {
+    const mileageTransform = (adMileage: number, speed: number) => adMileage * ((1 / 30) * ((-1 / 120) * (Math.pow(speed - 55, 2)) + 30));
 
     return mileageSpeedList.map((mileageSpeed) => mileageTransform(mileageSpeed.mileage, mileageSpeed.speed));
 }
@@ -97,16 +103,25 @@ async function transformMileageUsingSpeed(mileageSpeedList: Array<MileageSpeed>)
  * Gas prices here: https://collectapi.com/api/gasPrice/gas-prices-api
  * Return list of yearly fuel costs for each car in the video
  * 
+ * Average miles driven per year = 11,500
+ * According to https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle#:~:text=typical%20passenger%20vehicle%3F-,A%20typical%20passenger%20vehicle%20emits%20about%204.6%20metric%20tons%20of,around%2011%2C500%20miles%20per%20year.
+ * 
  */
-async function transformMileageToFuelCost(mileageList: Array<number>, stateAcronym: string): Promise<Array<number>> {
-    const gasPrice = await fetch(`https://api.collectapi.com/gasPrice/stateUsaPrice?state=${stateAcronym}`, {
+export async function transformMileageToFuelCost(mileageList: Array<number>, stateAcronym: string): Promise<Array<number>> {
+    const avgMilesDrivenPerYear: number = 11500;
+
+    const gasPrice: number = await fetch(`https://api.collectapi.com/gasPrice/stateUsaPrice?state=${stateAcronym}`, {
         headers: {
             "content-type": "application/json",
-            "authorization": "apikey your_token"
+            "authorization": "" + process.env.COLLECT_API_KEY
         }
+    }).then((response) => {
+        return response.json();
+    }).then((json) => {
+        return parseFloat(json.result.state.gasoline);
     });
 
-    throw new Error("Not implemented yet");
+    return mileageList.map((mileage) => Math.round(gasPrice / mileage * avgMilesDrivenPerYear * 100) / 100);
 }
 
 export async function getMileageFromVideo(videoLink: string): Promise<Array<number>> {
@@ -114,7 +129,7 @@ export async function getMileageFromVideo(videoLink: string): Promise<Array<numb
     const mileageSpeedList: Array<MileageSpeed> = await carSpeedToMileageSpeedArray(carsSpeedList);
     const mileageList: Array<number> = await transformMileageUsingSpeed(mileageSpeedList);
 
-    return mileageList;
+    return mileageList.map((mileage) => Math.round(mileage * 1000) / 1000);
 }
 
 export async function getFuelCostsFromVideo(videoLink: string, stateAcronym: string): Promise<Array<number>> {
@@ -123,3 +138,17 @@ export async function getFuelCostsFromVideo(videoLink: string, stateAcronym: str
     return fuelCosts;
 }
 
+function mlModelDummyData(): Array<CarSpeed> {
+    return [
+        { stanfordClassId: "1", speed: 10 },
+        { stanfordClassId: "2", speed: 20 },
+        { stanfordClassId: "3", speed: 30 },
+        { stanfordClassId: "4", speed: 40 },
+        { stanfordClassId: "5", speed: 50 },
+        { stanfordClassId: "6", speed: 60 },
+        { stanfordClassId: "7", speed: 70 },
+        { stanfordClassId: "8", speed: 80 },
+        { stanfordClassId: "9", speed: 90 },
+        { stanfordClassId: "10", speed: 100 }
+    ];
+}

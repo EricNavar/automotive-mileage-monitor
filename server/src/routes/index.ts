@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { getMileageFromVideo, getFuelCostsFromVideo, carToEpaId, epaIdToMileage } from "../interpretVideo";
+import { getMileageFromVideo, getFuelCostsFromVideo, carToEpaId, epaIdToMileage, transformMileageToFuelCost, transformMileageUsingSpeed } from "../interpretVideo";
 
 const router = express.Router();
 
@@ -8,12 +8,15 @@ router.get("/", (req: Request, res: Response) => {
   res.send("The / route is working");
 });
 
-router.post("/mileage", (req: Request, res: Response) => {
-  res.send(getMileageFromVideo(req.body.videoLink));
+router.get("/mileage", async (req: Request, res: Response) => {
+  let videoLink: string = req?.query?.videoLink as string || "";
+  res.send(await getMileageFromVideo(videoLink));
 });
 
-router.post("/fuelCosts", (req: Request, res: Response) => {
-  res.send(getFuelCostsFromVideo(req.body.videoLink, req.body.stateAcronym));
+router.get("/fuelCosts", async (req: Request, res: Response) => {
+  let videoLink: string = req?.query?.videoLink as string || "";
+  let stateAcronym: string = req?.query?.stateAcronym as string || "FL";
+  res.send(await getFuelCostsFromVideo(videoLink, stateAcronym));
 });
 
 router.get("/test", async (req: Request, res: Response) => {
@@ -22,6 +25,14 @@ router.get("/test", async (req: Request, res: Response) => {
 
 router.get("/test2", async (req: Request, res: Response) => {
   res.send(await epaIdToMileage("40606"));
+});
+
+router.get("/test3", async (req: Request, res: Response) => {
+  res.send(await transformMileageToFuelCost([25], "CA"));
+});
+
+router.get("/test4", async (req: Request, res: Response) => {
+  res.send(await transformMileageUsingSpeed([{mileage: 25, speed: 60}]));
 });
 
 export default router;
