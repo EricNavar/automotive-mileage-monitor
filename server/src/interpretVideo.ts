@@ -19,7 +19,11 @@ async function stanfordClassToCar(stanfordClassId: string): Promise<Car> {
 }
 
 async function carToEpaId(car: Car): Promise<string> {
-    throw new Error("Not implemented yet");
+    return fetch(`https://www.fueleconomy.gov/ws/rest/vehicle/menu/options?year=${car.year}&make=${car.make}&model=${car.model}`).then((response) => {
+        return response.json();
+    }).then((json) => {
+        return json.menuItem[0].value;
+    });
 }
 
 async function stanfordClassToEpaId(stanfordClassId: string): Promise<string> {
@@ -28,7 +32,11 @@ async function stanfordClassToEpaId(stanfordClassId: string): Promise<string> {
 }
 
 async function epaIdToMileage(epaId: string): Promise<number> {
-    throw new Error("Not implemented yet");
+    return fetch(`https://www.fueleconomy.gov/ws/rest/vehicle/${epaId}`).then((response) => {
+        return response.json();
+    }).then((data) => {
+        return data.comb08;
+    });
 }
 
 /**
