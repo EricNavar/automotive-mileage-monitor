@@ -138,17 +138,17 @@ export async function getFuelCostsFromVideo(videoLink: string, stateAcronym: str
     return fuelCosts;
 }
 
-export async function getCombinedResultsFromVideo(videoLink: string, stateAcronym: string): Promise<Array<{ yearlyFuelCost: number, mileage: number, speed: number, make: string, model: string, year: string }>> {
+export async function getCombinedResultsFromVideo(videoLink: string, stateAcronym: string): Promise<Array<{ yearlyFuelCost: number, originalMileage: number, effectiveMileage: number, speed: number, make: string, model: string, year: string }>> {
     const carsSpeedList: Array<CarSpeed> = await queryMLModel(videoLink);
     const mileageSpeedList: Array<MileageSpeed> = await carSpeedToMileageSpeedArray(carsSpeedList);
     const mileageList: Array<number> = (await transformMileageUsingSpeed(mileageSpeedList)).map((mileage) => Math.round(mileage * 1000) / 1000);
     const fuelCosts: Array<number> = await transformMileageToFuelCost(mileageList, stateAcronym);
     
-    let combinedObjectArray: Array<{ yearlyFuelCost: number, mileage: number, speed: number, make: string, model: string, year: string }> = [];
+    let combinedObjectArray: Array<{ yearlyFuelCost: number, originalMileage: number, effectiveMileage: number, speed: number, make: string, model: string, year: string }> = [];
     
     for (let i = 0; i < carsSpeedList.length; i++) {
         let curCar: Car = await stanfordClassToCar(carsSpeedList[i].stanfordClassId);
-        combinedObjectArray.push({yearlyFuelCost: fuelCosts[i], mileage: mileageList[i], speed: carsSpeedList[i].speed, make: curCar.make, model: curCar.model, year: curCar.year});
+        combinedObjectArray.push({yearlyFuelCost: fuelCosts[i], originalMileage: mileageSpeedList[i].mileage, effectiveMileage: mileageList[i], speed: carsSpeedList[i].speed, make: curCar.make, model: curCar.model, year: curCar.year});
     }
 
     return combinedObjectArray;
