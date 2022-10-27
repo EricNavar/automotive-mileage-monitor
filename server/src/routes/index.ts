@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { getMileageFromVideo, getFuelCostsFromVideo, carToEpaId, epaIdToMileage, transformMileageToFuelCost, transformMileageUsingSpeed } from "../interpretVideo";
+import { getMileageFromVideo, getFuelCostsFromVideo, carToEpaId, epaIdToMileage, transformMileageToFuelCost, transformMileageUsingSpeed, getCombinedResultsFromVideo } from "../interpretVideo";
 
 const router = express.Router();
 
@@ -8,19 +8,25 @@ router.get("/", (req: Request, res: Response) => {
   res.send("The / route is working");
 });
 
-router.get("/mileage", async (req: Request, res: Response) => {
+router.post("/mileage", async (req: Request, res: Response) => {
   let videoLink: string = req?.query?.videoLink as string || "";
   res.send(await getMileageFromVideo(videoLink));
 });
 
-router.get("/fuelCosts", async (req: Request, res: Response) => {
+router.post("/fuelCosts", async (req: Request, res: Response) => {
   let videoLink: string = req?.query?.videoLink as string || "";
   let stateAcronym: string = req?.query?.stateAcronym as string || "FL";
   res.send(await getFuelCostsFromVideo(videoLink, stateAcronym));
 });
 
+router.post("/combinedObject", async (req: Request, res: Response) => {
+  let videoLink: string = req?.query?.videoLink as string || "";
+  let stateAcronym: string = req?.query?.stateAcronym as string || "FL";
+  res.send(await getCombinedResultsFromVideo(videoLink, stateAcronym));
+});
+
 router.get("/test", async (req: Request, res: Response) => {
-  res.send(await carToEpaId({make: "Toyota", model: "Camry", type: "whatever", year: 2019}));
+  res.send(await carToEpaId({make: "Toyota", model: "Camry", type: "whatever", year: "2019"}));
 });
 
 router.get("/test2", async (req: Request, res: Response) => {
