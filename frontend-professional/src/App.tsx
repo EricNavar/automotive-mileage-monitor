@@ -1,6 +1,7 @@
 import React from 'react';
 import { Home } from './Home';
 import { Loading } from './Loading';
+import { Results } from './Results';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           />
         } />
         <Route path="/loading" element={<Loading/>} />
+        <Route path="/results" element={<Results/>} />
       </Routes>
     </BrowserRouter>
   );
