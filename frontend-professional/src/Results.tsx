@@ -26,7 +26,7 @@ const ListItem = (props: ListItemProps) => {
                     <span className="gray-text">MPG:</span> <span className="mileage">{props.originalMileage}</span> → <span className='real-mileage'>{props.effectiveMileage}</span><span style={{marginLeft:"2rem"}}>
                     <span className="gray-text">Speed: </span>{props.speed} mph</span>
                 </p>
-                <p className="line3"><span className="gray-text">Yearly fueld cost: </span>${props.yearlyFuelCost}</p>
+                <p className="line3"><span className="gray-text">Yearly fuel cost: </span>${props.yearlyFuelCost}</p>
             </div>
         </div>
     );
@@ -41,7 +41,7 @@ const Results = () => {
     meanYearlyFuelCost = Math.round(meanYearlyFuelCost * 100) / 100; //round to the nearest cent
 
     const [timeLeft, setTimeLeft] = React.useState<number|null>(5);
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
         if(timeLeft===0){
