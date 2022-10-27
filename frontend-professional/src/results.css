@@ -1,0 +1,72 @@
+.results {
+    padding: 20px 32px 20px 32px;
+}
+
+.total {
+    height: 160px;
+    border-width: 1px;
+    border-color: white;
+    border-style: solid;
+    margin-top: 10px;
+}
+
+
+.list-container {
+    overflow-y: scroll;
+    height: calc(100vh - 292px);
+}
+
+.list {
+    border-width: 1px;
+    border-color: white;
+    border-style: solid;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.listItem {
+    border-width: .5px;
+    border-color: white;
+    border-style: solid;
+    display: flex;
+}
+
+.car-thumbnail {
+    width: 100px;
+    margin: 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.info-container {
+    flex-grow: 1;
+    flex-basis: 1;
+}
+
+.line1 {
+    font-weight:bold;
+    margin-bottom: 8px;
+}
+
+.line2 {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.line3 {
+    margin-top: 8px;
+}
+
+.gray-text {
+    color: #acb7c4;
+}
+
+.mileage {
+    text-decoration: line-through;
+    color: #fc7065;
+}
+
+.real-mileage {
+    color: #86f7a0;
+}
