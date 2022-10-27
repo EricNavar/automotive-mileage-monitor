@@ -5,7 +5,7 @@
 .total {
     height: 160px;
     border-width: 1px;
-    border-color: white;
+    border-color: #1F2023;
     border-style: solid;
     margin-top: 10px;
 }
@@ -18,7 +18,7 @@
 
 .list {
     border-width: 1px;
-    border-color: white;
+    border-color: #1F2023;
     border-style: solid;
     border-radius: 8px;
     overflow: hidden;
@@ -27,7 +27,7 @@
 
 .listItem {
     border-width: .5px;
-    border-color: white;
+    border-color: #1F2023;
     border-style: solid;
     display: flex;
 }
@@ -59,14 +59,14 @@
 }
 
 .gray-text {
-    color: #acb7c4;
+    color: #464857;
 }
 
 .mileage {
     text-decoration: line-through;
-    color: #fc7065;
+    color: #942016;
 }
 
 .real-mileage {
-    color: #86f7a0;
+    color: #175227;
 }
