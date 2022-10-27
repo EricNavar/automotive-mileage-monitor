@@ -1,3 +1,12 @@
+import _2001AcuraIntegra from './assets/2001 Acura Integra Type-R.webp';
+import _2008AcuraTLTypeS from './assets/2008 Acura TL Type-S.jpg';
+import _2008AudiRS4 from './assets/2008 Audi RS 4.webp';
+import _2012AcuraTSX from './assets/2012 Acura TSX.jpg';
+import _2012AcuraZDX from './assets/2012 Acura ZDX.jpg';
+import _2012AstonMartinV8 from './assets/2012 Aston Martin V8 Vantage.jpg';
+import _2012AstonMartonVirage from './assets/2012 Aston Martin Virage.jpg';
+import _2012AcuraTL from './assets/2012-acura-TL.webp';
+
 export const dummyResults = [
     {
         "yearlyFuelCost": 3369.63,
@@ -6,7 +15,8 @@ export const dummyResults = [
         "speed": 10,
         "make": "Acura",
         "model": "TL",
-        "year": "2012"
+        "year": "2012",
+        image: _2012AcuraTL,
     },
     {
         "yearlyFuelCost": 2234.57,
@@ -15,7 +25,8 @@ export const dummyResults = [
         "speed": 20,
         "make": "Acura",
         "model": "TL Type-S",
-        "year": "2008"
+        "year": "2008",
+        image: _2008AcuraTLTypeS,
     },
     {
         "yearlyFuelCost": 1855.25,
@@ -24,7 +35,8 @@ export const dummyResults = [
         "speed": 30,
         "make": "Acura",
         "model": "TSX",
-        "year": "2012"
+        "year": "2012",
+        image: _2012AcuraTSX,
     },
     {
         "yearlyFuelCost": 1572.49,
@@ -33,7 +45,8 @@ export const dummyResults = [
         "speed": 40,
         "make": "Acura",
         "model": "Integra Type-R",
-        "year": "2001"
+        "year": "2001",
+        image: _2001AcuraIntegra,
     },
     {
         "yearlyFuelCost": 1484.55,
@@ -42,7 +55,8 @@ export const dummyResults = [
         "speed": 50,
         "make": "Acura",
         "model": "ZDX",
-        "year": "2012"
+        "year": "2012",
+        image: _2012AcuraZDX,
     },
     {
         "yearlyFuelCost": 2412.33,
@@ -51,7 +65,8 @@ export const dummyResults = [
         "speed": 60,
         "make": "Aston Martin",
         "model": "V8 Vantage",
-        "year": "2012"
+        "year": "2012",
+        image: _2012AstonMartinV8,
     },
     {
         "yearlyFuelCost": 2555.3,
@@ -60,7 +75,8 @@ export const dummyResults = [
         "speed": 70,
         "make": "Aston Martin",
         "model": "V8 Vantage",
-        "year": "2012"
+        "year": "2012",
+        image: _2012AstonMartinV8,
     },
     {
         "yearlyFuelCost": 3092.09,
@@ -69,7 +85,8 @@ export const dummyResults = [
         "speed": 80,
         "make": "Aston Martin",
         "model": "Virage",
-        "year": "2012"
+        "year": "2012",
+        image: _2012AstonMartonVirage,
     },
     {
         "yearlyFuelCost": 3873.23,
@@ -78,7 +95,8 @@ export const dummyResults = [
         "speed": 90,
         "make": "Aston Martin",
         "model": "Virage",
-        "year": "2012"
+        "year": "2012",
+        image: _2012AstonMartonVirage,
     },
     {
         "yearlyFuelCost": 3369.63,
@@ -87,6 +105,7 @@ export const dummyResults = [
         "speed": 100,
         "make": "Audi",
         "model": "RS 4",
-        "year": "2008"
+        "year": "2008",
+        image: _2008AudiRS4,
     }
 ];

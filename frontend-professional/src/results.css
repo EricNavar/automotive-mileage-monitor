@@ -33,10 +33,11 @@
 }
 
 .car-thumbnail {
-    width: 100px;
+    width: 140px;
     margin: 18px;
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
 }
 
 .info-container {

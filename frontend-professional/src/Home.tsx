@@ -26,8 +26,8 @@ const Home = (props: HomeProps) => {
         if (selectedFile === null) {
             setEmptyFileError(true);
         }
-        window.location.href = "/loading";
-        //make API call
+        window.location.href = "/results";
+        //will make API call
     }
 
     function onChangeUSState(event: any) {
