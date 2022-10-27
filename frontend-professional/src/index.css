@@ -2,6 +2,8 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   color: white;
+  background-color: #1F2023;
+  min-height: 100vh;
 }
 
 .form {
@@ -23,8 +25,7 @@ label {
 }
 
 .home {
-  background-color: #1F2023;
-  min-height: 100vh;
+
   padding: 16px 24px 16px 24px;
 }
 

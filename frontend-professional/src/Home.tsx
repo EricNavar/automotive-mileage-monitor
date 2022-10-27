@@ -1,5 +1,10 @@
 import React from 'react';
 import './index.css';
+import AWS from 'aws-sdk';
+
+function s3() {
+
+}
 
 type HomeProps = {
     videoFile: any;
@@ -9,14 +14,43 @@ type HomeProps = {
 }
 
 const Home = (props: HomeProps) => {
+    const [selectedFile, setSelectedFile] = React.useState(null);
+    const [emptyFileError, setEmptyFileError] = React.useState(false);
+
+    const handleFileInput = (e:any) => {
+        setSelectedFile(e.target.files[0]);
+    }
+
     function ballCrusher(event: any) {
         event?.preventDefault();
+        if (selectedFile === null) {
+            setEmptyFileError(true);
+        }
+        window.location.href = "/loading";
         //make API call
     }
 
     function onChangeUSState(event: any) {
         props.setUSState(event?.target.value);
     }
+
+    // Bucket Configurations
+    var bucketName = 'waffle-house';
+    var bucketRegion = 'us-east-1';
+    // identity pool name: waffle-house-employees
+    var IdentityPoolId = 'us-east-1:638b9e6e-3ed9-4e0c-a9de-2cfed1a9577e';
+
+    AWS.config.update({
+        region: bucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: IdentityPoolId
+        })
+    });
+
+    var s3 = new AWS.S3({
+        apiVersion: '2006-03-01',
+        params: { Bucket: bucketName }
+    });
 
     return (
         <div className="home">
@@ -30,6 +64,7 @@ const Home = (props: HomeProps) => {
                     accept="video/*"
                     className="formInput browse"
                 />
+                {emptyFileError && <p style={{color:'red'}}>Please input an mp4 file</p>}
                 <label>Select a state</label>
                 <select onChange={onChangeUSState} className="formInput">
                     <option value="AL">Alabama</option>
